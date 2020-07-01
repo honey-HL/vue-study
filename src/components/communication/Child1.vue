@@ -18,7 +18,8 @@
       //   console.log('Child1:', msg);
       // });
       this.$parent.$on('event-from-child2', msg => {
-        console.log('Child1:', msg);
+        // debugger
+        console.log('22 Child1:', msg);
       });
     },
   }
