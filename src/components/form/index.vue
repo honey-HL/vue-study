@@ -22,8 +22,8 @@ import ElementTest from "@/components/form/ElementTest.vue";
 import KInput from "@/components/form/KInput.vue";
 import KFormItem from "@/components/form/KFormItem.vue";
 import KForm from "@/components/form/KForm.vue";
-import create from '@/utils/create'
-import Notice from '@/components/Notice.vue';
+// import create from '@/utils/create'
+// import Notice from '@/components/Notice.vue';
 
 export default {
   components: {
@@ -47,14 +47,18 @@ export default {
   methods: {
     login() {
       this.$refs.loginForm.validate(isValid => {
-        // this.$notice({})
-
-        // 创建notice实例
-        create(Notice, {
+        this.$notice({
           title: '村长喊你来搬砖',
           message: isValid ? '请求登录': '校验失败',
           duration: 3000
-        }).show()
+        })
+
+        // 创建notice实例
+        // create(Notice, {
+        //   title: '村长喊你来搬砖',
+        //   message: isValid ? '请求登录': '校验失败',
+        //   duration: 3000
+        // }).show()
         // if (isValid) {
         //   // 合法
         //   console.log("request login");

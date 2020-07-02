@@ -23,18 +23,18 @@ export default {
   },
   data() {
     return {
-      isShow: false
+      isShow: true
     };
   },
   methods: {
-    show() {
-      this.isShow = true;
-      setTimeout(this.hide, this.duration);
-    },
-    hide() {
-      this.isShow = false;
-      this.remove();
-    }
+    // show() {
+    //   this.isShow = true;
+    //   setTimeout(this.hide, this.duration);
+    // },
+    // hide() {
+    //   this.isShow = false;
+    //   this.remove();
+    // }
   }
 };
 </script>
