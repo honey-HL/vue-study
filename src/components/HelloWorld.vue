@@ -1,6 +1,10 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <p @click="$store.commit('add')">counter: {{$store.state.counter}}</p>
+    <p @click="$store.dispatch('add')">async counter: {{$store.state.counter}}</p>
+    <p>doubleCounter: {{$store.getters.doubleCounter}}</p>
+    <p>fourCounter: {{$store.getters.fourCounter}}</p>
     <!-- 组件通信 -->
     <!-- <Communication></Communication> -->
     <!-- 表单 -->
@@ -30,7 +34,12 @@ export default {
     SlotExample,
     TreeExample
   },
-}
+  mounted() {
+    console.log(this.$store)
+    // debugger
+    // this.$store.state = {}
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
