@@ -2,6 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import './plugins/element.js'
 import registryNotice from './utils/notice'
+import router from './krouter'
+import store from './kstore'
+// import store from './store'
+// import router from './router'
 
 // 自定义组件 registryNotice
 Vue.use(registryNotice)
@@ -10,5 +14,9 @@ Vue.config.productionTip = false
 Vue.prototype.$bus = new Vue()
 
 new Vue({
-  render: h => h(App),
+  // 设置router，它怎么起作用？
+  router,
+
+  store,
+  render: h => h(App)
 }).$mount('#app')

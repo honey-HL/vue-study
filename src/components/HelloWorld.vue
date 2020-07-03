@@ -13,18 +13,17 @@
     <!-- <SlotExample></SlotExample> -->
     <!-- 递归 -->
     <!-- <TreeExample></TreeExample> -->
-    
   </div>
 </template>
 
 <script>
-import Communication from '@/components/communication';
-import FormExample from '@/components/form';
-import SlotExample from '@/components/slots';
-import TreeExample from '@/components/recursion';
+import Communication from "@/components/communication";
+import FormExample from "@/components/form";
+import SlotExample from "@/components/slots";
+import TreeExample from "@/components/recursion";
 
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: String
   },

@@ -3,9 +3,6 @@ let KVue
 // 实现Store类
 class Store { 
   constructor(options) {
-    console.log('66==>options',options.getters.doubleCounter(options.state))
-    // debugger
-    
 
     // 保存mutations
     this._mutations = options.mutations
@@ -24,9 +21,6 @@ class Store {
     }
     this.getters = options.getters
     // const computed = {}
-
-    console.log('this.getters==>',this.getters)
-    // let getters = options.getters
 
     // getters
     // 1.遍历用户传入getters所有key，动态赋值，其值应该是函数执行结果
