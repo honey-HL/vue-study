@@ -30,7 +30,7 @@ class Store {
     // this.getters.doubleCounter = options.getters.doubleCounter(options.state)
     // Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
     
-    
+    /*****getters的实现*****/
     Object.keys(this.getters).forEach((key) => {
         defineProp(this.getters, this.getters[key], key)
     })
