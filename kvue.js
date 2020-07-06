@@ -124,20 +124,31 @@ class Compile {
   compileElement(node) {
     // 获取节点属性
     const nodeAttrs = node.attributes
+    console.log('nodeAttrs==>',nodeAttrs)
     Array.from(nodeAttrs).forEach(attr => {
       // k-xxx="aaa"
       const attrName = attr.name // k-xxx
+      console.log('attrName===>',attrName)
       const exp = attr.value // aaa
       // 判断这个属性类型
       if (this.isDirective(attrName)) {
         const dir = attrName.substring(2)
         // 执行指令
         this[dir] && this[dir](node, exp)
-      } 
-      
-      else if(attrName.startWith('@')){
-        // 
-        
+      } else if(attrName.indexOf('@') === 0){ // 如'@lick'
+        const dir = attrName.substring(1)
+        console.log('node==>', node) // <button @click="onclick">点我</button>
+        console.log('dir==>',dir) // click
+        console.log('$vm==>',this.$vm) // KVue: {$data: {}, $options: {methods: onclick(){}}
+        console.log('exp==>',exp) // onclick
+        let fn = this.$vm.$options.methods && this.$vm.$options.methods[exp]
+        // debugger
+        /**
+         * 如果是这样第一次进来就触发了事件 之后就触发不了事件了
+         * 并且fn函数里面的this指的是Window对象
+         * **/ 
+        // node.addEventListener(dir, fn()) 
+        node.addEventListener(dir, fn.bind(this.$vm))
       }
 
     })

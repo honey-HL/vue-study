@@ -8,7 +8,7 @@
 </head>
 <body>
   <div id="app">
-    <p @click="onclick">{{counter}}</p>
+    <button @click="onclick">点我</button>
     <p k-text="counter"></p>
     <p k-html="desc"></p>
   </div>
@@ -24,15 +24,16 @@
       },
       methods: {
         onclick() {
+          debugger
           // this必须是组件实例
-          console.log(this);
-          
+          console.log('2888==>',this);
+          alert('触发了click事件')
         }
       },
     })
-    setInterval(() => {
-      app.counter++
-    }, 1000);
+    // setInterval(() => {
+    //   app.counter++
+    // }, 1000);
     
   </script>
 </body>
