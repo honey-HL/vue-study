@@ -165,7 +165,7 @@ export function mountComponent (
     }
   }
   callHook(vm, 'beforeMount')
-
+  // 更新函数
   let updateComponent
   /* istanbul ignore if */
   if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
@@ -187,6 +187,8 @@ export function mountComponent (
     }
   } else {
     updateComponent = () => {
+      // 先执行渲染函数得到虚拟dom再执行更新 更新函数再把虚拟dom转化为真实dom
+      // 每次更新函数的时候先得到最新的虚拟dom 然后再把新的虚拟dom与老虚拟dom比对 最后通过update更新把比对后的虚拟dom转化为真实dom
       vm._update(vm._render(), hydrating)
     }
   }
