@@ -32,24 +32,12 @@ function flushCallbacks () {
 // sequential events (e.g. #4521, #6690, which have workarounds)
 // or even between bubbling of the same event (#6566).
 let timerFunc
-
-// The nextTick behavior leverages the microtask queue, which can be accessed
-// via either native Promise.then or MutationObserver.
-// MutationObserver has wider support, however it is seriously bugged in
-// UIWebView in iOS >= 9.3.3 when triggered in touch event handlers. It
-// completely stops working after triggering a few times... so, if native
-// Promise is available, we will use it:
-/* istanbul ignore next, $flow-disable-line */
 if (typeof Promise !== 'undefined' && isNative(Promise)) {
-  // 首选Promise
+  // 先判断是否支持promise
+  // 首选Promise,因为微任务是比较高效的
   const p = Promise.resolve()
   timerFunc = () => {
     p.then(flushCallbacks)
-    // In problematic UIWebViews, Promise.then doesn't completely break, but
-    // it can get stuck in a weird state where callbacks are pushed into the
-    // microtask queue but the queue isn't being flushed, until the browser
-    // needs to do some other work, e.g. handle a timer. Therefore we can
-    // "force" the microtask queue to be flushed by adding an empty timer.
     if (isIOS) setTimeout(noop)
   }
   isUsingMicroTask = true
@@ -57,10 +45,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
   isNative(MutationObserver) ||
   // PhantomJS and iOS 7.x
   MutationObserver.toString() === '[object MutationObserverConstructor]'
-)) {
-  // Use MutationObserver where native Promise is not available,
-  // e.g. PhantomJS, iOS7, Android 4.4
-  // (#6466 MutationObserver is unreliable in IE11)
+)) { // 不行再用MutationObserver
   let counter = 1
   const observer = new MutationObserver(flushCallbacks)
   const textNode = document.createTextNode(String(counter))
@@ -81,6 +66,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
   }
 } else {
   // Fallback to setTimeout.
+  // 最后选择用宏任务
   timerFunc = () => {
     setTimeout(flushCallbacks, 0)
   }
@@ -88,7 +74,9 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
 
 // 此处nextTick就是熟悉的Vue.nextTick
 export function nextTick (cb?: Function, ctx?: Object) {
+  // cb是传进来的flushSchedulerQueue
   let _resolve
+  // 刷新队列的函数会被加进callbacks数组
   callbacks.push(() => {
     if (cb) {
       try {
@@ -103,7 +91,7 @@ export function nextTick (cb?: Function, ctx?: Object) {
   })
   if (!pending) {
     pending = true
-    // 异步执行
+    // 如果当前没有在挂起状态，异步执行
     timerFunc()
   }
   // $flow-disable-line

@@ -77,6 +77,7 @@ export default class Watcher {
       : ''
     // parse expression for getter
     if (typeof expOrFn === 'function') {
+      // 把函数expOrFn ----> updateComponent传递给getter  
       this.getter = expOrFn
     } else {
       this.getter = parsePath(expOrFn)
@@ -181,7 +182,7 @@ export default class Watcher {
    */
   run () {
     if (this.active) {
-      // 
+      // 调用get
       const value = this.get()
       if (
         value !== this.value ||

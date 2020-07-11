@@ -170,7 +170,7 @@ export function queueWatcher (watcher: Watcher) {
   if (has[id] == null) {
     has[id] = true
     if (!flushing) {
-      // 入队
+      // 不在队列就入队
       queue.push(watcher)
     } else {
       // if already flushing, splice the watcher based on its id
@@ -189,7 +189,7 @@ export function queueWatcher (watcher: Watcher) {
         flushSchedulerQueue()
         return
       }
-      // 异步刷新队列
+      // 如果当前没有等待，异步刷新队列
       nextTick(flushSchedulerQueue)
     }
   }
