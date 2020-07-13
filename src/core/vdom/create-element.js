@@ -108,14 +108,18 @@ export function _createElement (
           context
         )
       }
+      // 如果是原生标签就创建一个与之对应的虚拟dom
       vnode = new VNode(
         config.parsePlatformTagName(tag), data, children,
         undefined, undefined, context
       )
     } else if ((!data || !data.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag))) {
+      // tag相当于例子中的comp 
+      // Ctor是构造函数
       // component
-      // 自定义组件，前面条件获取components选项中对应的组件构造函数
-      vnode = createComponent(Ctor, data, context, children, tag)
+      // 自定义组件，前面条件获取components选项中对应的组件构造函数 
+      // 把构造函数创建成组件对应的虚拟dom
+      vnode = createComponent(Ctor, data, context, children, tag) 
     } else {
       // unknown or unlisted namespaced elements
       // check at runtime because it may get assigned a namespace when its

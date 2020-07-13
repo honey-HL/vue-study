@@ -35,6 +35,7 @@ import {
 // inline hooks to be invoked on component VNodes during patch
 // 组件未来一些关键生命周期钩子
 const componentVNodeHooks = {
+  // 创建
   init (vnode: VNodeWithData, hydrating: boolean): ?boolean {
     if (
       vnode.componentInstance &&
@@ -54,7 +55,7 @@ const componentVNodeHooks = {
       child.$mount(hydrating ? vnode.elm : undefined, hydrating)
     }
   },
-
+// 更新
   prepatch (oldVnode: MountedComponentVNode, vnode: MountedComponentVNode) {
     const options = vnode.componentOptions
     const child = vnode.componentInstance = oldVnode.componentInstance
@@ -66,7 +67,7 @@ const componentVNodeHooks = {
       options.children // new children
     )
   },
-
+ // 插入
   insert (vnode: MountedComponentVNode) {
     const { context, componentInstance } = vnode
     if (!componentInstance._isMounted) {
@@ -86,7 +87,7 @@ const componentVNodeHooks = {
       }
     }
   },
-
+  // 销毁
   destroy (vnode: MountedComponentVNode) {
     const { componentInstance } = vnode
     if (!componentInstance._isDestroyed) {
@@ -117,6 +118,7 @@ export function createComponent (
 
   // plain options object: turn it into a constructor
   if (isObject(Ctor)) {
+    // 保证最终一定能拿到构造函数
     Ctor = baseCtor.extend(Ctor)
   }
 
@@ -129,7 +131,7 @@ export function createComponent (
     return
   }
 
-  // async component
+  // async component异步组件
   let asyncFactory
   if (isUndef(Ctor.cid)) {
     asyncFactory = Ctor

@@ -217,8 +217,9 @@ export function createPatchFunction (backend) {
     let i = vnode.data
     if (isDef(i)) {
       const isReactivated = isDef(vnode.componentInstance) && i.keepAlive
-      if (isDef(i = i.hook) && isDef(i = i.init)) {
+      if (isDef(i = i.hook) && isDef(i = i.init)) { // 有没有init初始化的钩子
         // 实例化和挂载
+        // 有的话就去执行src/core/vdom/create-component.js里面的componentVNodeHooks.init()
         i(vnode, false /* hydrating */)
       }
       // after calling the init hook, if the vnode is a child component
