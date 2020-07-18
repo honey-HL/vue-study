@@ -160,5 +160,5 @@ class Foo {
 
 const f1 = new Foo()
 // @ts-ignore
-f1.log()
-f1.setBar('barrrrr')
+// f1.log()
+// f1.setBar('barrrrr')

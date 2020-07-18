@@ -20,6 +20,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Emit } from "vue-property-decorator";
 import { FeatureSelect } from "@/types";
+import Loading from '@/loading';
 
 // export default Vue.extend(options)
 // class-style
@@ -68,12 +69,35 @@ export default class HelloWorld extends Vue {
     return this.features.length
   }
 
-  mounted() {
+  getD = () => {
+    return this.$http.get<FeatureSelect[]>('/api/list')
+  }
+
+//   afun = (params: any) => {
+//     return new Promise((resolve, reject) => {
+//       setTimeout(() => {
+//         resolve(params.id)
+//       }, 2000)
+//     })
+//   }
+
+//  @Loading()
+//   async fun(params = {}) { // 不能使用箭头函数？
+//     const result = await this.afun(params)
+//     console.info(result)
+//   }
+
+  @Loading({time: 2000})
+  async getList () {
     // 请求数据
-    this.$http.get<FeatureSelect[]>('/api/list').then(resp => {
-      this.features = resp.data
-    })
-    
+    let resp = await this.getD()
+    this.features = resp.data
+    console.log(this.features)
+  }
+
+  mounted() {
+    this.getList()
+    // this.fun({ id: 100 })
   }
 }
 
