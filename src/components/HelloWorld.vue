@@ -33,7 +33,21 @@ export default class HelloWorld extends Vue {
   @Prop({type: String, required: true}) 
   private msg!: string; // 这行约束是写给ts编译器的
 
+  getD = () => {
+    return this.$http.get<FeatureSelect[]>('/api/list')
+  }
 
+  @Loading({time: 2000})
+  async getList () {
+    // 请求数据
+    let resp = await this.getD()
+    this.features = resp.data
+    console.log(this.features)
+  }
+
+  mounted() {
+    this.getList()
+  }
 
   // 属性将成为data中数据
   features: FeatureSelect[] = [];
@@ -69,36 +83,6 @@ export default class HelloWorld extends Vue {
     return this.features.length
   }
 
-  getD = () => {
-    return this.$http.get<FeatureSelect[]>('/api/list')
-  }
-
-//   afun = (params: any) => {
-//     return new Promise((resolve, reject) => {
-//       setTimeout(() => {
-//         resolve(params.id)
-//       }, 2000)
-//     })
-//   }
-
-//  @Loading()
-//   async fun(params = {}) { // 不能使用箭头函数？
-//     const result = await this.afun(params)
-//     console.info(result)
-//   }
-
-  @Loading({time: 2000})
-  async getList () {
-    // 请求数据
-    let resp = await this.getD()
-    this.features = resp.data
-    console.log(this.features)
-  }
-
-  mounted() {
-    this.getList()
-    // this.fun({ id: 100 })
-  }
 }
 
 // option-style
