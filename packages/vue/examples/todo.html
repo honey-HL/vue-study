@@ -1,0 +1,37 @@
+<div id="app">
+    <input v-model="name" @keyup.enter="onAdd" type="text"/>
+    <div>总数 ：{{countTotal}}</div>
+    <div v-for="(item,index) in list" :key="index">
+      <span>{{index + 1}}</span>
+      <span style="margin-left:10px;">{{item}}</span>
+      <span @click="onDelete(index)" style="margin-left:10px;font-size: 10px;">删除</span>
+    </div>
+</div>
+<script src="../dist/vue.global.js"></script>
+<script>
+  const { createApp, reactive, computed, ref, toRefs } = Vue
+  const app = createApp({
+    setup() {
+      const data = reactive({
+          count: 0,
+          name: '',
+          list: []
+      })
+      const countTotal= ref(computed(() => data.count ))
+
+      function onAdd () {
+        data.list.push(data.name)
+        data.name = ''
+        data.count++
+      }
+
+      function onDelete (index) {
+        data.list = data.list.filter((item,i) => index !== i)
+        data.count--
+      }
+
+      return {...toRefs(data),onAdd, onDelete, countTotal}
+    }
+  })
+  app.mount('#app')
+</script>
